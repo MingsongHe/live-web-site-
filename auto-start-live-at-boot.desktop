@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Start run raspberrypi-youtube-live.py
+Comment=Python Program
+Exec=lxterminal -e sudo python /home/pi/Desktop/raspberrypi-youtube-live.py
+Icon=/home/pi/Desktop/Logo.png
+Terminal=false
+MultipleArgs=false
+Type=Application
+Categories=Application;Development;
+StartupNotify=true
