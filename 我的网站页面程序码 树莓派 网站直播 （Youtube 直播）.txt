@@ -1,0 +1,181 @@
+我的网站页面程序码：
+<?php
+global $wpdb;
+$wpdb -> show_errors();
+
+$login_name = $wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2" , 1);
+
+$no1_position_x = $_POST['no1_position_x'];
+$no1_position_y = $_POST['no1_position_y'];
+$no2_position_x = $_POST['no2_position_x'];
+$no2_position_y = $_POST['no2_position_y'];
+$working_lighter = $_POST['working_lighter'];
+$screen = $_POST['screen'];
+$fan_on_off = $_POST['fan_on_off'];
+$motor_on_off = $_POST['motor_on_off'];
+$meeting_room_video_on_off = $_POST['meeting_room_video_on_off'];
+$office_video_on_off = $_POST['office_video_on_off'];
+$work_route = $_POST['work_route'];
+$Leave_message = $_POST['Leave_message'];
+if($no1_position_x!=""){
+    $wpdb -> update('ufq_iotdata', array('no1_position_x' => "$no1_position_x"), array('id' => 2));
+    $wpdb -> update('ufq_iotdata', array('no1_position_y' => "$no1_position_y"), array('id' => 2));
+    $wpdb -> update('ufq_iotdata', array('no2_position_x' => "$no2_position_x"), array('id' => 2));
+    $wpdb -> update('ufq_iotdata', array('no2_position_y' => "$no2_position_y"), array('id' => 2));
+    if($working_lighter == "checked"){
+                $wpdb -> update('ufq_iotdata', array('working_lighter' => "$working_lighter"), array('id' => 2));
+    }
+    else{
+                $wpdb -> update('ufq_iotdata', array('working_lighter' => "xxxxxxx"), array('id' => 2));
+    }
+    if($screen == "checked"){
+        $wpdb -> update('ufq_iotdata', array('screen' => "$screen"), array('id' => 2));
+    }
+    else{
+        $wpdb -> update('ufq_iotdata', array('screen' => "xxxxxxx"), array('id' => 2));
+    }
+    if($meeting_room_video_on_off == "checked"){
+        $wpdb -> update('ufq_iotdata', array('meeting_room_video' => "$meeting_room_video_on_off"), array('id' => 2));
+    }
+    else{
+        $wpdb -> update('ufq_iotdata', array('meeting_room_video' => "xxxxxxx"), array('id' => 2));
+    }
+    if($office_video_on_off == "checked"){
+        $wpdb -> update('ufq_iotdata', array('office_video' => "$office_video_on_off"), array('id' => 2));
+    }
+    else{
+        $wpdb -> update('ufq_iotdata', array('office_video' => "xxxxxxx"), array('id' => 2));
+    }
+  if($fan_on_off == "checked"){
+      $wpdb -> update('ufq_iotdata', array('fan_on_off' => "$fan_on_off"), array('id' => 2));
+  }
+  else{
+      $wpdb -> update('ufq_iotdata', array('fan_on_off' => "xxxxxxx"), array('id' => 2));
+  }
+  if($motor_on_off == "checked"){
+      $wpdb -> update('ufq_iotdata', array('motor_on_off' => "$motor_on_off"), array('id' => 2));
+  }
+  else{
+      $wpdb -> update('ufq_iotdata', array('motor_on_off' => "xxxxxxx"), array('id' => 2));
+  }
+    if($work_route == "check_a"){
+        $wpdb -> update('ufq_iotdata', array('A_line' => "checked"), array('id' => 2));
+        $wpdb -> update('ufq_iotdata', array('B_line' => "xxxxxxx"), array('id' => 2));
+    }
+    if($work_route == "check_b"){
+        $wpdb -> update('ufq_iotdata', array('A_line' => "xxxxxxx"), array('id' => 2));
+        $wpdb -> update('ufq_iotdata', array('B_line' => "checked"), array('id' => 2));
+    }
+    $wpdb -> update('ufq_iotdata', array('message' => "$Leave_message"), array('id' => 2));
+}
+?>
+<!doctype html>
+<html>
+<head>
+   <title>EMS IOT</title>
+<link rel="stylesheet" type="text/css" href='https://bilingualplan.com/wp-content/themes/easyweb/iot_static/style.css'/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- 提高电脑，手机 移动装置显示位置兼容性 -->
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script> <!--没有这个文件，JavaScript 功能可能失效-->
+</head>
+
+<body>
+<p style="text-align: center;">[embedyt] https://www.youtube.com/embed/live_stream?channel=UCL4UFQY4aNdX7DCgPoC4QBQ[/embedyt]</p>
+
+<div id= "iot-container" class="iot-container" style="position:relative;top:-5px;">
+    <div style="text-align: center; position:relative;top:10px">
+       <div class="btn-group">
+         <button id = "meeting_room" type="button" class="btn btn-default" onclick="meeting_room_Function()">#1 相机</button>
+         <button id = "office" type="button" class="btn btn-default" onclick="office_Function()">#2 相机</button>
+       </div>
+    </div>
+</div>
+
+<div style="background:#f0f3f9; position:relative; top:-2px; height: 110px; text-align: center; margin-left:-30px; margin-right:-20px; ">
+<form action="" method="post" >
+  <div id="setting-01" style="position:relative;top:10px; left:10px">
+    <label for="no1_position_x" id = "no1_camera" style="float:left;">#1 相机 H/V </label>
+    <input class="position" id="no1_position_x" type="range" min="10" style="width:90%"
+                                 value="<?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",5)); ?>"
+                                 max="80" step="1" name="no1_position_x" onchange="document.getElementById('show_no1_x').innerHTML=value*2-90"><span id = "show_no1_x"><?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",5)*2-90); ?></span><span>&deg;</span>
+    <input class="position" id="no1_position_y" type="range" min="10" style="width:90%; position:relative;top:1px"
+                                 value="<?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",6)); ?>" 
+                                 max="80" step="1" name="no1_position_y" onchange="document.getElementById('show_no1_y').innerHTML=value*2-90"><span id = "show_no1_y"><?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",6)*2-90); ?></span><span>&deg;</span>   
+  </div>
+  <div id="setting-01" style="position:relative; top:10px">
+     <label for="no2_camera" id = "no2_camera" style="float:left;">#2 相机 H/V </label>  
+     <input class="position" id="no2_position_x" type="range" min="10" style="width:90%"
+                                 value="<?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",7)); ?>"
+                                 max="80" step="1" name="no2_position_x" onchange="document.getElementById('show_no2_x').innerHTML=value*2-90"><span id = "show_no2_x"><?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",7)*2-90); ?></span><span>&deg;</span>
+     <input class="position" id="no2_position_y" type="range" min="10" style="width:90%; position:relative;top:1px"
+                                 value="<?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",8)); ?>" 
+                                 max="80" step="1" name="no2_position_y" onchange="document.getElementById('show_no2_y').innerHTML=value*2-90"><span id = "show_no2_y"><?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",8)*2-90); ?></span><span>&deg;</span>
+  </div>
+  <div id="setting-02" style="position:relative;top:10px;">
+     <label for="video_on_off" id = "video_on_off" >相机控制: </label> <br>
+     <input type="checkbox" id = "meeting_room_video_on_off" name="meeting_room_video_on_off" value="checked" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",11)); ?>>
+     <label for="meeting_room_video_on_off" id = "meeting_room_video" style = "font-weight: 400;">&nbsp;#1 相机</label><br>
+     <input type="checkbox" id = "office_video_on_off" name="office_video_on_off" value="checked" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",12)); ?>>
+     <label for="office_video_on_off" id = "office_video" style = "font-weight: 400;">&nbsp;#2 相机</label>
+  </div>
+  <div id="setting-02" style="position:relative;top:10px;">
+      <label for="seetting_contral" id = "seetting_contral">现场控制: </label> <br>
+      <input type="checkbox" id = "working_lighter_contral" name="working_lighter" value="checked" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",9)); ?>>
+      <label for="working_lighter_contral" id = "working_lighter" style = "font-weight: 400;">&nbsp;工作灯</label><br>
+      <input type="checkbox" id = "screen_contral" name="screen" value="checked" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",10)); ?>>
+      <label for="creen_contral" id = "screen" style = "font-weight: 400;">&nbsp;提示屏</label>
+  </div>
+  <div id="setting-02" style="position:relative;top:10px;">
+      <label for="on_off" id = "video_on_off" ></label>&nbsp;<br>
+      <input type="checkbox" id = "fan_on_off" name="fan_on_off" value="checked" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",13)); ?>>
+      <label for="fan_on_off" id = "fan_on_off" style = "font-weight: 400;">&nbsp;风机</label><br>
+      <input type="checkbox" id = "motor_on_off" name="motor_on_off" value="checked" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",14)); ?>>
+      <label for="motor_on_off" id = "motor_on_off" style = "font-weight: 400;">&nbsp;电机</label>
+  </div>
+  <div id="setting-03" style="position:relative;top:10px;">
+      <label for="select_product_line" id = "select_product_line">工作线: </label> <br> 
+      <input type="radio" id="a_line" name="work_route" value="check_a" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",15)); ?>>
+      <label for="a_line" id = "a_product_line" style = "font-weight: 400;">&nbsp;A 线</label><br>
+      <input type="radio" id="b_line" name="work_route" value="check_b" <?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",16)); ?>>
+      <label for="b_line" id = "b_product_line" style = "font-weight: 400;">&nbsp;B 线</label>
+   </div>
+</div>
+<div style="background:#f0f3f9; position:relative; top:-2px; height: 60px; text-align: center; margin-left:-30px; margin-right:-20px; ">
+   <div id="setting-05" style="position:relative;top:10px;">
+       <input type="submit" id = "Save_Settings" value="设  置"  class = "submitbtn"/>
+   </div>          
+</div>
+</form>
+<div style="text-align: center;">
+        <a id = "login_name">dmin</a>
+        <a id = "login_link_text">, 您上一次登录的时间是:  </a>
+        <a id = "login_time">01-01-2022</a>
+</div>
+</body>
+<script>
+var login_name = '<?php echo ($login_name); ?>';
+document.getElementById("login_name").innerHTML=login_name;
+var login_time = '<?php echo ($wpdb -> get_var("SELECT * FROM `ufq_iotdata` WHERE `id` = 2",3)); ?>';
+document.getElementById("login_time").innerHTML=login_time;
+function Save_setting_Function()
+       {  
+        var object = document.getElementById("working_lighter_contral");
+        var volume = object.checked;
+        alert(volume);
+        var no1_position_x = document.getElementById("no1_position_x").value;
+        var no1_position_y = document.getElementById("no1_position_y").value;
+        var no2_position_x = document.getElementById("no1_position_x").value;
+        var no2_position_y = document.getElementById("no1_position_y").value;
+        var working_lighter_contral = document.getElementById("working_lighter_contral").checked;
+        var screen_contral = document.getElementById("screen_contral").checked;
+        var meeting_room_video = document.getElementById("meeting_room_video_on_off").checked;
+        var office_video = document.getElementById("office_video_on_off").checked;
+        var a_line = document.getElementById("a_line").checked;
+        var b_line = document.getElementById("b_line").checked;
+        var leave_message = document.getElementById("leave_message_text").value;
+        alert(a_line);
+        alert(leave_message);
+       }
+</script>
+</body>
+</html>
